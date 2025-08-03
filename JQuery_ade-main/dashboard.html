@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Dashboard - GadgetEssence</title>
+
+    <!-- Bootstrap 4 CSS -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous"
+    />
+
+    <!-- SweetAlert2 CSS -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.16.1/sweetalert2.css"
+        integrity="sha512-fjO3Vy3QodX9c6G9AUmr6WuIaEPdGRxBjD7gjatG5gGylzYyrEq3U0q+smkG6CwIY0L8XALRFHh4KPHig0Q1ug=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+    />
+    
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        crossorigin="anonymous"
+    />
+    
+    <!-- Custom GadgetEssence CSS -->
+    <link rel="stylesheet" href="css/style.css" />
+
+    <!-- jQuery -->
+    <script
+        src="https://code.jquery.com/jquery-3.6.4.min.js"
+        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
+        crossorigin="anonymous"
+    ></script>
+    
+    <!-- Bootstrap JavaScript -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"
+    ></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"
+    ></script>
+
+    <!-- SweetAlert2 JavaScript -->
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.16.1/sweetalert2.min.js"
+        integrity="sha512-LGHBR+kJ5jZSIzhhdfytPoEHzgaYuTRifq9g5l6ja6/k9NAOsAi5dQh4zQF6JIRB8cAYxTRedERUF+97/KuivQ=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+    ></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Dashboard JavaScript -->
+    <script type="text/javascript" src="js/dashboard.js"></script>
+    <script src="js/auth-checker.js"></script>
+    <script src="js/refresh-utility.js"></script>
+</head>
+<body>
+    <!-- GadgetEssence Header -->
+    <div id="header"></div>
+    
+    <!-- Main Dashboard Container -->
+    <div class="gadget-admin-container">
+        <div class="container-fluid">
+            <!-- Dashboard Title Section -->
+            <div class="row">
+                <div class="col-12">
+                    <h1 class="gadget-admin-title">
+                        <i class="fas fa-chart-line me-3"></i>
+                        Admin Dashboard
+                        <small class="d-block mt-2">Real-time analytics and business insights</small>
+                    </h1>
+                </div>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="row">
+                <!-- Line Chart: Orders Over Time -->
+                <div class="col-lg-6 col-md-12 mb-4">
+                    <div class="card gadget-dashboard-card gadget-dashboard-line">
+                        <div class="card-header gadget-dashboard-header">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-chart-line me-2"></i>
+                                Orders Over Time
+                            </h5>
+                            <small class="text-muted">Track order trends over the last 30 days</small>
+                        </div>
+                        <div class="card-body gadget-dashboard-body">
+                            <div class="chart-container">
+                                <canvas id="addressChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bar Chart: Monthly Sales Revenue -->
+                <div class="col-lg-6 col-md-12 mb-4">
+                    <div class="card gadget-dashboard-card gadget-dashboard-bar">
+                        <div class="card-header gadget-dashboard-header">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-chart-bar me-2"></i>
+                                Monthly Sales Revenue
+                            </h5>
+                            <small class="text-muted">Revenue performance by month</small>
+                        </div>
+                        <div class="card-body gadget-dashboard-body">
+                            <div class="chart-container">
+                                <canvas id="salesChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pie Chart Row -->
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto mb-4">
+                    <div class="card gadget-dashboard-card gadget-dashboard-pie">
+                        <div class="card-header gadget-dashboard-header">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-chart-pie me-2"></i>
+                                Top Selling Categories
+                            </h5>
+                            <small class="text-muted">Best performing product categories</small>
+                        </div>
+                        <div class="card-body gadget-dashboard-body">
+                            <div class="chart-container">
+                                <canvas id="itemsChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(function() {
+            $("#header").load("header.html", function() {
+                if (!sessionStorage.getItem('userId')) {
+                    // Hide Profile menu if not logged in
+                    $('a.nav-link[href="profile.html"]').closest('.nav-item').hide();
+                    // Show Register and Login
+                    $('a.nav-link[href="register.html"]').closest('.nav-item').show();
+                    $('a.nav-link[href="login.html"]').closest('.nav-item').show();
+                } else {
+                    // If logged in, show Profile, hide Register, change Login to Logout
+                    $('a.nav-link[href="profile.html"]').closest('.nav-item').show();
+                    $('a.nav-link[href="register.html"]').closest('.nav-item').hide();
+                    const $loginLink = $('a.nav-link[href="login.html"]');
+                    $loginLink.text('Logout').attr({ 'href': '#', 'id': 'logout-link' }).on('click', function (e) {
+                        e.preventDefault();
+                        sessionStorage.clear();
+                        window.location.href = 'login.html';
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

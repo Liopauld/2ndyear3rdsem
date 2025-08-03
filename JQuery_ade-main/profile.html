@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Profile - GadgetEssence</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      crossorigin="anonymous"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.16.1/sweetalert2.css"
+      integrity="sha512-fjO3Vy3QodX9c6G9AUmr6WuIaEPdGRxBjD7gjatG5gGylzYyrEq3U0q+smkG6CwIY0L8XALRFHh4KPHig0Q1ug=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- Animate.css for enhanced animations -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+      crossorigin="anonymous"
+    />
+
+    <!-- Custom GadgetEssence CSS -->
+    <link rel="stylesheet" href="css/style.css" />
+    
+    <!-- Fix for dropdown text display -->
+    <style>
+      .gadget-select {
+        line-height: 1.5 !important;
+        height: auto !important;
+        min-height: 48px !important;
+        padding: 12px 16px !important;
+        vertical-align: middle !important;
+      }
+      
+      .gadget-select option {
+        padding: 8px 12px !important;
+        line-height: 1.4 !important;
+        height: auto !important;
+        min-height: 32px !important;
+        display: block !important;
+      }
+      
+      /* Ensure proper text alignment in select */
+      select.gadget-select {
+        appearance: menulist !important;
+        -webkit-appearance: menulist !important;
+        -moz-appearance: menulist !important;
+      }
+    </style>
+
+    <script
+      src="https://code.jquery.com/jquery-3.6.4.min.js"
+      integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.16.1/sweetalert2.min.js"
+      integrity="sha512-LGHBR+kJ5jZSIzhhdfytPoEHzgaYuTRifq9g5l6ja6/k9NAOsAi5dQh4zQF6JIRB8cAYxTRedERUF+97/KuivQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <script src="js/user.js"></script>
+    <script src="js/auth-checker.js"></script>
+  </head>
+  <body>
+    <!-- GadgetEssence Header -->
+    <div id="header"></div>
+
+    <!-- Main Profile Container -->
+    <div class="gadget-admin-container">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-8 col-lg-7">
+            <div class="card gadget-modal shadow-lg">
+              <div class="card-header gadget-modal-header text-center">
+                <h3 class="modal-title mb-0">
+                  <i class="fas fa-user-circle me-2"></i>
+                  My Profile
+                </h3>
+                <p class="text-muted mb-0 mt-2">Manage your GadgetEssence account information</p>
+              </div>
+              <div class="card-body gadget-modal-body">
+                <form id="profileForm" class="gadget-form">
+                  <!-- Avatar Section -->
+                  <div class="text-center mb-4">
+                    <div class="position-relative d-inline-block">
+                      <img
+                        id="avatarPreview"
+                        src="https://via.placeholder.com/120x120/667eea/ffffff?text=Avatar"
+                        alt="Avatar Preview"
+                        style="width:120px;height:120px;object-fit:cover;border-radius:50%;border:4px solid #667eea;box-shadow:0 4px 15px rgba(102, 126, 234, 0.3);"
+                      />
+                      <label for="avatar" class="position-absolute" style="bottom:0;right:10px;background:#667eea;border-radius:50%;padding:8px;cursor:pointer;color:white;box-shadow:0 2px 8px rgba(0,0,0,0.2);">
+                        <i class="fas fa-camera"></i>
+                      </label>
+                    </div>
+                    <input type="file" id="avatar" name="image" accept="image/*" style="display:none;" />
+                    <p class="text-muted mt-2 mb-0">
+                      <i class="fas fa-info-circle"></i>
+                      Click the camera icon to change your avatar
+                    </p>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="title" class="gadget-label">
+                          <i class="fas fa-user-tag"></i>
+                          Title
+                        </label>
+                        <select id="title" name="title" class="form-control gadget-select">
+                          <option value="">Select Title</option>
+                          <option value="Mr.">Mr.</option>
+                          <option value="Ms.">Ms.</option>
+                          <option value="Mrs.">Mrs.</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="last_name" class="gadget-label">
+                          <i class="fas fa-user"></i>
+                          Last Name
+                        </label>
+                        <input
+                          type="text"
+                          id="last_name"
+                          name="last_name"
+                          class="form-control gadget-input"
+                          placeholder="Enter your last name"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="first_name" class="gadget-label">
+                          <i class="fas fa-user"></i>
+                          First Name
+                        </label>
+                        <input
+                          type="text"
+                          id="first_name"
+                          name="first_name"
+                          class="form-control gadget-input"
+                          placeholder="Enter your first name"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="phone" class="gadget-label">
+                          <i class="fas fa-phone"></i>
+                          Phone Number
+                        </label>
+                        <input
+                          type="text"
+                          id="phone"
+                          name="phone"
+                          class="form-control gadget-input"
+                          placeholder="Enter your phone number"
+                          required
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="address" class="gadget-label">
+                      <i class="fas fa-map-marker-alt"></i>
+                      Address
+                    </label>
+                    <input
+                      type="text"
+                      id="address"
+                      name="address"
+                      class="form-control gadget-input"
+                      placeholder="Enter your complete address"
+                    />
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-8">
+                      <div class="form-group">
+                        <label for="city" class="gadget-label">
+                          <i class="fas fa-city"></i>
+                          City
+                        </label>
+                        <input
+                          type="text"
+                          id="city"
+                          name="city"
+                          class="form-control gadget-input"
+                          placeholder="Enter your city"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="zipcode" class="gadget-label">
+                          <i class="fas fa-mail-bulk"></i>
+                          Zip Code
+                        </label>
+                        <input
+                          type="text"
+                          id="zipcode"
+                          name="zipcode"
+                          class="form-control gadget-input"
+                          placeholder="ZIP Code"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="text-center mt-4">
+                    <button
+                      type="submit"
+                      class="btn gadget-btn-primary btn-lg px-5"
+                      id="updateBtn"
+                    >
+                      <i class="fas fa-save me-2"></i>
+                      Update Profile
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Check authentication immediately when script loads - before DOM ready
+      const userId = sessionStorage.getItem('userId') ? JSON.parse(sessionStorage.getItem('userId')) : null;
+      const jwtToken = sessionStorage.getItem('jwtToken') || '';
+      
+      // Protect this page - redirect to login if not authenticated
+      if (!userId || !jwtToken) {
+        // Clear any partial/invalid authentication data to prevent loops
+        sessionStorage.clear();
+        // Immediate redirect without SweetAlert to prevent loops
+        window.location.href = 'login.html';
+      } else {
+        // Only proceed with page initialization if authenticated
+        $(function() {
+          $("#header").load("header.html");
+          if (sessionStorage.getItem('userId')) {
+            // Change Login to Logout
+            const $loginLink = $('a.nav-link[href="login.html"]');
+            $loginLink.text('Logout').attr({ 'href': '#', 'id': 'logout-link' }).on('click', function (e) {
+              e.preventDefault();
+              
+              // Enhanced logout confirmation
+              Swal.fire({
+                title: 'Logout Confirmation',
+                text: 'Are you sure you want to logout?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#667eea',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: '<i class="fas fa-sign-out-alt"></i> Yes, Logout',
+                cancelButtonText: '<i class="fas fa-times"></i> Cancel'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  sessionStorage.clear();
+                  window.location.href = 'login.html';
+                }
+              });
+            });
+            // Hide Register menu
+            $('a.nav-link[href="register.html"]').closest('.nav-item').hide();
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

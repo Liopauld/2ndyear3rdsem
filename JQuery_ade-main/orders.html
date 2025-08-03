@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Orders Management - GadgetEssence</title>
+    
+    <!-- Bootstrap 4 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" 
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
+          crossorigin="anonymous" />
+    
+    <!-- Custom Styles for Pagination -->
+    <style>
+        .search-container {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            border-radius: 15px;
+            border: 2px solid rgba(102, 126, 234, 0.1);
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.1);
+        }
+        
+        .filter-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            border: 2px solid rgba(102, 126, 234, 0.1);
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.1);
+        }
+        
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status-processing {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-delivered {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .status-canceled {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .status-pending {
+            background-color: #e2e3e5;
+            color: #383d41;
+        }
+        
+        .pagination .page-link {
+            color: #667eea;
+            border-color: #dee2e6;
+        }
+        
+        .pagination .page-item.active .page-link {
+            background-color: #667eea;
+            border-color: #667eea;
+        }
+        
+        .pagination .page-link:hover {
+            color: #764ba2;
+            background-color: #e9ecef;
+            border-color: #dee2e6;
+        }
+    </style>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" crossorigin="anonymous" />
+    
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.16.1/sweetalert2.css" 
+          integrity="sha512-fjO3Vy3QodX9c6G9AUmr6WuIaEPdGRxBjD7gjatG5gGylzYyrEq3U0q+smkG6CwIY0L8XALRFHh4KPHig0Q1ug==" 
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Custom GadgetEssence CSS -->
+    <link rel="stylesheet" href="css/style.css" />
+    
+    <!-- jQuery and Bootstrap JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" 
+            integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" 
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" 
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" 
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" 
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" 
+            crossorigin="anonymous"></script>
+    
+    <!-- Pagination Utility -->
+    <script src="js/pagination-utility.js"></script>
+    
+    <!-- SweetAlert2 JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.16.1/sweetalert2.min.js" 
+            integrity="sha512-LGHBR+kJ5jZSIzhhdfytPoEHzgaYuTRifq9g5l6ja6/k9NAOsAi5dQh4zQF6JIRB8cAYxTRedERUF+97/KuivQ==" 
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <!-- Orders JavaScript -->
+    <script src="js/orders.js"></script>
+    <script src="js/auth-checker.js"></script>
+    <script src="js/refresh-utility.js"></script>
+</head>
+<body>
+    <!-- GadgetEssence Header -->
+    <div id="header"></div>
+    
+    <!-- Main Admin Container -->
+    <div class="gadget-admin-container">
+        <div class="container-fluid">
+            <!-- Admin Title Section -->
+            <div class="row">
+                <div class="col-12">
+                    <h1 class="gadget-admin-title">
+                        <i class="fas fa-shopping-cart me-3"></i>
+                        Orders Management
+                        <small class="d-block mt-2">Manage customer orders and track delivery status</small>
+                    </h1>
+                </div>
+            </div>
+            
+            <!-- Search Bar -->
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <div class="search-container p-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="searchInput" placeholder="Type to search orders in real-time...">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="button" id="searchBtn">
+                                    <i class="fas fa-search"></i> Search
+                                </button>
+                                <button class="btn btn-secondary" type="button" id="clearSearchBtn">
+                                    <i class="fas fa-times"></i> Clear
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="filter-card card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#filterCollapse" aria-expanded="false" aria-controls="filterCollapse">
+                            <i class="fas fa-filter"></i> Filters
+                        </button>
+                    </h5>
+                </div>
+                <div id="filterCollapse" class="collapse">
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- Status Filter -->
+                            <div class="col-md-6">
+                                <div class="filter-section">
+                                    <h6>Status</h6>
+                                    <select class="form-control" id="statusFilter" style="height: 45px; padding: 8px 12px;">
+                                        <option value="">All Status</option>
+                                        <option value="pending">Pending</option>
+                                        <option value="processing">Processing</option>
+                                        <option value="delivered">Delivered</option>
+                                        <option value="canceled">Canceled</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <!-- Date Range Filter -->
+                            <div class="col-md-6">
+                                <div class="filter-section">
+                                    <h6>Date Range</h6>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="dateFrom">From</label>
+                                            <input type="date" class="form-control" id="dateFrom">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="dateTo">To</label>
+                                            <input type="date" class="form-control" id="dateTo">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <button class="btn btn-success btn-apply-filters" id="applyFiltersBtn">
+                                    <i class="fas fa-check"></i> Apply Filters
+                                </button>
+                                <button class="btn btn-outline-secondary ml-2" id="clearFiltersBtn">
+                                    <i class="fas fa-undo"></i> Clear Filters
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Data Container -->
+            <div id="dataContainer"></div>
+            
+            <!-- Bottom Pagination -->
+            <div id="paginationBarBottom" class="mt-4"></div>
+        </div>
+    </div>
+    
+    <!-- GadgetEssence Modal for Status Update -->
+    <div class="modal fade gadget-modal" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="statusModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header gadget-modal-header">
+                    <h5 class="modal-title" id="statusModalLabel">
+                        <i class="fas fa-edit me-2"></i>
+                        Update Order Status
+                    </h5>
+                    <button type="button" class="close gadget-modal-close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body gadget-modal-body">
+                    <form id="statusForm" class="gadget-form">
+                        <input type="hidden" id="modalOrderId" />
+                        
+                        <div class="form-group">
+                            <label for="modalCurrentStatus" class="gadget-label">
+                                <i class="fas fa-info-circle me-2"></i>
+                                Current Status
+                            </label>
+                            <input type="text" 
+                                   class="form-control gadget-input" 
+                                   id="modalCurrentStatus" 
+                                   readonly 
+                                   style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border: 2px solid #dee2e6;">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="modalStatus" class="gadget-label">
+                                <i class="fas fa-exchange-alt me-2"></i>
+                                New Status <span class="text-danger">*</span>
+                            </label>
+                            <select class="form-control gadget-select" id="modalStatus" required>
+                                <option value="">-- Select New Status --</option>
+                                <option value="processing">
+                                    <i class="fas fa-clock"></i> Processing
+                                </option>
+                                <option value="delivered">
+                                    <i class="fas fa-check-circle"></i> Delivered
+                                </option>
+                                <option value="canceled">
+                                    <i class="fas fa-times-circle"></i> Canceled
+                                </option>
+                            </select>
+                            <small class="form-text" style="color: #667eea; font-weight: 500;">
+                                <i class="fas fa-envelope me-1"></i>
+                                Customer will receive an email notification when status is updated
+                            </small>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer gadget-modal-footer">
+                    <button type="button" class="btn gadget-btn-secondary" data-dismiss="modal">
+                        <i class="fas fa-times me-2"></i>
+                        Cancel
+                    </button>
+                    <button type="button" class="btn gadget-btn-primary" id="saveStatusBtn">
+                        <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                        <i class="fas fa-save me-2"></i>
+                        Update Status
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(function() {
+            $("#header").load("header.html");
+        });
+    </script>
+</body>
+</html>

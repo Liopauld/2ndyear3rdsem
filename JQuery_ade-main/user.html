@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>GadgetEssence - Manage Users</title>
+    
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      crossorigin="anonymous"
+    />
+    
+    <!-- Custom Styles for Pagination -->
+    <style>
+        .search-container {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            border-radius: 15px;
+            border: 2px solid rgba(102, 126, 234, 0.1);
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.1);
+        }
+        
+        .filter-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            border: 2px solid rgba(102, 126, 234, 0.1);
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.1);
+        }
+        
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status-active {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status-inactive {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .role-admin {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+        
+        .role-user {
+            background-color: #e2e3e5;
+            color: #383d41;
+        }
+        
+        .pagination .page-link {
+            color: #667eea;
+            border-color: #dee2e6;
+        }
+        
+        .pagination .page-item.active .page-link {
+            background-color: #667eea;
+            border-color: #667eea;
+        }
+        
+        .pagination .page-link:hover {
+            color: #764ba2;
+            background-color: #e9ecef;
+            border-color: #dee2e6;
+        }
+    </style>
+
+    <!-- SweetAlert2 CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.16.1/sweetalert2.css"
+      integrity="sha512-fjO3Vy3QodX9c6G9AUmr6WuIaEPdGRxBjD7gjatG5gGylzYyrEq3U0q+smkG6CwIY0L8XALRFHh4KPHig0Q1ug=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css" />
+    <!-- jQuery -->
+    <script
+      src="https://code.jquery.com/jquery-3.6.4.min.js"
+      integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
+      crossorigin="anonymous"
+    ></script>
+    
+    <!-- Bootstrap JS -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+    
+    <!-- Pagination Utility -->
+    <script src="js/pagination-utility.js"></script>
+
+
+    
+    <!-- SweetAlert2 JS -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.16.1/sweetalert2.min.js"
+      integrity="sha512-LGHBR+kJ5jZSIzhhdfytPoEHzgaYuTRifq9g5l6ja6/k9NAOsAi5dQh4zQF6JIRB8cAYxTRedERUF+97/KuivQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <!-- Custom JS -->
+    <script src="js/user.js"></script>
+    <script src="js/auth-checker.js"></script>
+    <script src="js/refresh-utility.js"></script>
+  </head>
+  <body>
+    <div id="header"></div>
+    <script>
+      $("#header").load("header.html", function() {
+        if (!sessionStorage.getItem('userId')) {
+          // Hide Profile menu if not logged in
+          $('a.nav-link[href="profile.html"]').closest('.nav-item').hide();
+          // Show Register and Login
+          $('a.nav-link[href="register.html"]').closest('.nav-item').show();
+          $('a.nav-link[href="login.html"]').closest('.nav-item').show();
+        } else {
+          // If logged in, show Profile, hide Register, change Login to Logout
+          $('a.nav-link[href="profile.html"]').closest('.nav-item').show();
+          $('a.nav-link[href="register.html"]').closest('.nav-item').hide();
+          const $loginLink = $('a.nav-link[href="login.html"]');
+          $loginLink.text('Logout').attr({ 'href': '#', 'id': 'logout-link' }).on('click', function (e) {
+            e.preventDefault();
+            sessionStorage.clear();
+            window.location.href = 'login.html';
+          });
+        }
+      });
+    </script>
+    
+    <div class="container gadget-admin-container" id="adminUsersContainer">
+      <h1 class="mb-4 gadget-admin-title">
+        <i class="fas fa-users" style="color: #00d4ff; margin-right: 15px;"></i>
+        Manage Users
+        <small class="d-block" style="font-size: 0.6em; color: #7f8c8d; margin-top: 5px;">Admin - User Management & Customer Accounts</small>
+      </h1>
+      
+      <!-- Search Bar -->
+      <div class="row mb-4">
+        <div class="col-md-12">
+          <div class="search-container p-3">
+            <div class="input-group">
+              <input type="text" class="form-control" id="searchInput" placeholder="Type to search users in real-time...">
+              <div class="input-group-append">
+                <button class="btn btn-primary" type="button" id="searchBtn">
+                  <i class="fas fa-search"></i> Search
+                </button>
+                <button class="btn btn-secondary" type="button" id="clearSearchBtn">
+                  <i class="fas fa-times"></i> Clear
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="filter-card card mb-4">
+        <div class="card-header">
+          <h5 class="mb-0">
+            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#filterCollapse" aria-expanded="false" aria-controls="filterCollapse">
+              <i class="fas fa-filter"></i> Filters
+            </button>
+          </h5>
+        </div>
+        <div id="filterCollapse" class="collapse">
+          <div class="card-body">
+            <div class="row">
+              <!-- Status Filter -->
+              <div class="col-md-6">
+                <div class="filter-section">
+                  <h6>Status</h6>
+                  <select class="form-control" id="statusFilter" style="height: 45px; padding: 8px 12px;">
+                    <option value="">All Status</option>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                  </select>
+                </div>
+              </div>
+              
+              <!-- Role Filter -->
+              <div class="col-md-6">
+                <div class="filter-section">
+                  <h6>Role</h6>
+                  <select class="form-control" id="roleFilter" style="height: 45px; padding: 8px 12px;">
+                    <option value="">All Roles</option>
+                    <option value="admin">Admin</option>
+                    <option value="user">User</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            
+            <div class="row mt-3">
+              <div class="col-md-12">
+                <button class="btn btn-success btn-apply-filters" id="applyFiltersBtn">
+                  <i class="fas fa-check"></i> Apply Filters
+                </button>
+                <button class="btn btn-outline-secondary ml-2" id="clearFiltersBtn">
+                  <i class="fas fa-undo"></i> Clear Filters
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Data Container -->
+      <div id="dataContainer"></div>
+      
+      <!-- Bottom Pagination -->
+      <div id="paginationBarBottom" class="mt-4"></div>
+    </div>
+    <!-- Modal for edit user/customer -->
+    <div class="modal fade gadget-modal" id="userModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content gadget-modal-content">
+          <div class="modal-header gadget-modal-header">
+            <h5 class="modal-title">
+              <i class="fas fa-user-edit"></i> Edit User Status/Role
+            </h5>
+            <button type="button" class="close gadget-modal-close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body gadget-modal-body">
+            <form id="uform" class="gadget-form">
+              <input type="hidden" id="user_id" name="user_id" />
+              <div class="form-group">
+                <label for="status" class="control-label gadget-label">
+                  <i class="fas fa-toggle-on"></i> Status
+                </label>
+                <select class="form-control gadget-select" id="status" name="status" style="height: 45px; padding: 8px 12px;">
+                  <option value="active">Active</option>
+                  <option value="inactive">Inactive</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="role" class="control-label gadget-label">
+                  <i class="fas fa-user-shield"></i> Role
+                </label>
+                <select class="form-control gadget-select" id="role" name="role" style="height: 45px; padding: 8px 12px;">
+                  <option value="user">User</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer gadget-modal-footer">
+            <button type="button" class="btn gadget-btn-secondary" data-dismiss="modal">
+              <i class="fas fa-times"></i> Cancel
+            </button>
+            <button id="userUpdate" type="button" class="btn gadget-btn-primary">
+              <i class="fas fa-save"></i> Update User
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

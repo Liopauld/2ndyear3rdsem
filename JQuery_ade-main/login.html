@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Login - GadgetEssence</title>
+  
+    <!-- Latest compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      crossorigin="anonymous"
+    />
+ 
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.16.1/sweetalert2.css"
+      integrity="sha512-fjO3Vy3QodX9c6G9AUmr6WuIaEPdGRxBjD7gjatG5gGylzYyrEq3U0q+smkG6CwIY0L8XALRFHh4KPHig0Q1ug=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- Custom GadgetEssence CSS -->
+    <link rel="stylesheet" href="css/style.css" />
+
+    <script
+      src="https://code.jquery.com/jquery-3.6.4.min.js"
+      integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+   
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.16.1/sweetalert2.min.js"
+      integrity="sha512-LGHBR+kJ5jZSIzhhdfytPoEHzgaYuTRifq9g5l6ja6/k9NAOsAi5dQh4zQF6JIRB8cAYxTRedERUF+97/KuivQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <script src="js/user.js"></script>
+  </head>
+  <body>
+    <!-- GadgetEssence Header -->
+    <div id="header"></div>
+
+    <!-- Main Login Container -->
+    <div class="gadget-admin-container">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-6 col-lg-5">
+            <div class="card gadget-modal shadow-lg">
+              <div class="card-header gadget-modal-header text-center">
+                <h3 class="modal-title mb-0">
+                  <i class="fas fa-sign-in-alt me-2"></i>
+                  Welcome Back
+                </h3>
+                <p class="text-muted mb-0 mt-2">Sign in to GadgetEssence Electronics & Essentials</p>
+              </div>
+              <div class="card-body gadget-modal-body">
+                <form id="loginForm" class="gadget-form">
+                  <div class="form-group">
+                    <label for="email" class="gadget-label">
+                      <i class="fas fa-envelope"></i>
+                      Email Address
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      class="form-control gadget-input"
+                      required
+                      placeholder="Enter your email address"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="password" class="gadget-label">
+                      <i class="fas fa-lock"></i>
+                      Password
+                    </label>
+                    <input
+                      type="password"
+                      id="password"
+                      name="password"
+                      class="form-control gadget-input"
+                      required
+                      placeholder="Enter your password"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    class="btn gadget-btn-primary btn-block btn-lg"
+                    id="login"
+                  >
+                    <i class="fas fa-sign-in-alt me-2"></i>
+                    Sign In
+                  </button>
+                </form>
+
+                <!-- Register Link Section -->
+                <div class="text-center mt-4 pt-3" style="border-top: 1px solid rgba(102, 126, 234, 0.2);">
+                  <p class="mb-0 text-muted">
+                    <i class="fas fa-question-circle me-1"></i>
+                    Don't have an account? 
+                    <a href="register.html" class="text-decoration-none" style="color: #667eea; font-weight: 600;">
+                      <i class="fas fa-user-plus ms-1"></i>
+                      Click here to register
+                    </a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      $("#header").load("header.html", function() {
+        // For login page, check BOTH userId AND jwtToken to determine if truly logged in
+        const userId = sessionStorage.getItem('userId') ? JSON.parse(sessionStorage.getItem('userId')) : null;
+        const jwtToken = sessionStorage.getItem('jwtToken') || '';
+        
+        if (!userId || !jwtToken) {
+          // Not fully authenticated - show login/register options
+          $('a.nav-link[href="register.html"]').closest('.nav-item').show();
+          $('a.nav-link[href="login.html"]').closest('.nav-item').show();
+          // Hide all other navigation items for non-logged in users
+          $('a.nav-link[href="home.html"]').closest('.nav-item').hide();
+          $('a.nav-link[href="profile.html"]').closest('.nav-item').hide();
+          $('#myorders-nav').hide();
+          $('#cart-nav').hide();
+          $('#admin-dropdown').hide();
+        } else {
+          // Fully authenticated - check profile completeness and redirect accordingly
+          checkUserProfileAndRedirect(userId, jwtToken);
+        }
+      });
+
+      // Function to check profile completeness (same as in user.js but for redirect logic)
+      function checkUserProfileAndRedirect(userId, jwtToken) {
+        $.ajax({
+          url: 'http://localhost:4000/api/v1/users/customer-by-userid/' + userId,
+          method: 'GET',
+          dataType: 'json',
+          headers: {
+            'Authorization': 'Bearer ' + jwtToken
+          },
+          success: function(res) {
+            if (res.success && res.customer) {
+              const customer = res.customer;
+              const isProfileComplete = customer.title && 
+                                      customer.last_name && 
+                                      customer.first_name && 
+                                      customer.address && 
+                                      customer.city && 
+                                      customer.zipcode && 
+                                      customer.phone;
+              
+              if (isProfileComplete) {
+                window.location.href = 'home.html';
+              } else {
+                window.location.href = 'profile.html';
+              }
+            } else {
+              window.location.href = 'profile.html';
+            }
+          },
+          error: function(err) {
+            // If authentication fails, clear invalid tokens and stay on login page
+            if (err.status === 401) {
+              sessionStorage.clear();
+              // Don't redirect - stay on login page since authentication failed
+            } else {
+              window.location.href = 'profile.html';
+            }
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

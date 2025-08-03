@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GadgetEssence</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      crossorigin="anonymous"
+    />
+    <!-- Add your CSS and JS links here -->
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark gadget-navbar mb-0">
+      <a class="navbar-brand gadget-brand" href="home.html">
+        <i class="fas fa-microchip brand-icon"></i>
+        <span class="brand-text">GadgetEssence</span>
+        <div class="brand-profile-pic" id="brandProfilePic" style="display: none;">
+          <img id="brandAvatarImg" src="" alt="Profile" />
+        </div>
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item home">
+            <a class="nav-link gadget-nav-link" href="home.html">
+              <i class="fas fa-home nav-icon"></i> Home
+            </a>
+          </li>
+          <li class="nav-item dropdown gadget-dropdown" id="admin-dropdown" style="display:none;">
+            <a class="nav-link dropdown-toggle gadget-nav-link" href="#" id="adminDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-user-shield nav-icon"></i> Admin
+            </a>
+            <div class="dropdown-menu gadget-dropdown-menu" aria-labelledby="adminDropdown">
+              <a class="dropdown-item gadget-dropdown-item" href="item.html">
+                <i class="fas fa-microchip"></i> Manage Items
+              </a>
+              <a class="dropdown-item gadget-dropdown-item" href="user.html">
+                <i class="fas fa-users"></i> Manage Users
+              </a>
+              <a class="dropdown-item gadget-dropdown-item" href="orders.html">
+                <i class="fas fa-shopping-bag"></i> Manage Orders
+              </a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item gadget-dropdown-item" href="dashboard.html">
+                <i class="fas fa-chart-line"></i> Analytics Dashboard
+              </a>
+            </div>
+          </li>
+          <li class="nav-item profile">
+            <a class="nav-link gadget-nav-link" href="profile.html">
+              <i class="fas fa-user-circle nav-icon"></i> Profile
+            </a>
+          </li>
+          <li class="nav-item" id="myorders-nav" style="display:none;">
+            <a class="nav-link gadget-nav-link" href="myorders.html">
+              <i class="fas fa-receipt nav-icon"></i> My Orders
+            </a>
+          </li>
+          <li class="nav-item" id="reviews-nav" style="display:none;">
+            <a class="nav-link gadget-nav-link" href="item_reviews.html">
+              <i class="fas fa-star nav-icon"></i> Reviews
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link gadget-nav-link" href="register.html">
+              <i class="fas fa-user-plus nav-icon"></i> Register
+            </a>
+          </li>
+          <li class="nav-item" id="cart-nav">
+            <a class="nav-link gadget-nav-link cart-link" href="cart.html">
+              <i class="fas fa-shopping-cart nav-icon"></i> 
+              <span class="cart-text">Cart</span>
+              <span class="cart-badge">0</span>
+            </a>
+          </li>
+          <li class="nav-item" id="log">
+            <a class="nav-link gadget-nav-link login-btn" href="login.html">
+              <i class="fas fa-sign-in-alt nav-icon"></i> Login
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Add your page content here -->
+
+    <!-- jQuery and Bootstrap JS (if not already included) -->
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+      // Function to update cart badge count - make it globally available
+      window.updateCartBadge = function() {
+        let cart = localStorage.getItem('cart');
+        let cartCount = 0;
+        if (cart) {
+          cart = JSON.parse(cart);
+          cartCount = cart.length; // Count unique items, not quantities
+        }
+        $('.cart-badge').text(cartCount);
+        
+        // Add visual feedback when cart updates
+        if (cartCount > 0) {
+          $('.cart-badge').addClass('cart-pulse');
+          setTimeout(() => $('.cart-badge').removeClass('cart-pulse'), 1000);
+        }
+      };
+
+      // Function to load user profile picture in header
+      function loadHeaderProfilePicture() {
+        const jwtToken = sessionStorage.getItem('jwtToken');
+        const userId = sessionStorage.getItem('userId');
+        
+        if (jwtToken && userId) {
+          $.ajax({
+            url: 'http://localhost:4000/api/v1/users/customer-by-userid/' + userId,
+            type: 'GET',
+            headers: {
+              'Authorization': 'Bearer ' + jwtToken
+            },
+            success: function(response) {
+              console.log('Profile data for header:', response);
+              
+              if (response.success && response.customer) {
+                const customer = response.customer;
+                const profilePicElement = $('.brand-profile-pic img');
+                
+                // Use the customer's image_path (always has a value)
+                profilePicElement.attr('src', 'http://localhost:4000/' + customer.image_path);
+                profilePicElement.attr('alt', customer.first_name + ' ' + customer.last_name);
+                
+                // Show the profile picture
+                $('.brand-profile-pic').show();
+              }
+            },
+            error: function(xhr, status, error) {
+              console.log('Error loading profile data for header:', xhr.responseText);
+              // Hide profile pic if not logged in or error
+              $('.brand-profile-pic').hide();
+            }
+          });
+        } else {
+          // Hide profile pic if not logged in
+          $('.brand-profile-pic').hide();
+        }
+      }
+
+      $(function() {
+        // Only run this logic if header is loaded as a partial (not as a full page)
+        if (window.location.pathname.endsWith('header.html')) return;
+        
+        // Load user profile picture in header
+        loadHeaderProfilePicture();
+        
+        // Update cart badge on page load
+        updateCartBadge();
+        
+        // Show/hide Admin dropdown based on JWT and admin role
+        var jwtToken = sessionStorage.getItem('jwtToken');
+        if (jwtToken) {
+          try {
+            var payload = JSON.parse(atob(jwtToken.split('.')[1]));
+            if (payload.role && payload.role === 'admin') {
+              $('#admin-dropdown').show();
+            } else {
+              $('#admin-dropdown').hide();
+            }
+          } catch (e) {
+            $('#admin-dropdown').hide();
+          }
+        } else {
+          $('#admin-dropdown').hide();
+        }
+        if (sessionStorage.getItem('userId')) {
+          // Change Login to Logout
+          const $loginLink = $('a.nav-link[href="login.html"]');
+          $loginLink.text('Logout').attr({ 'href': '#', 'id': 'logout-link' }).off('click').on('click', function (e) {
+            e.preventDefault();
+            var jwtToken = sessionStorage.getItem('jwtToken');
+            // Use absolute URL for logout endpoint
+            var logoutUrl = 'http://localhost:4000/api/v1/users/logout';
+            if (jwtToken) {
+              $.ajax({
+                method: 'POST',
+                url: logoutUrl,
+                headers: { 'Authorization': 'Bearer ' + jwtToken },
+                success: function(response) {
+                  console.log('Logout successful:', response);
+                  sessionStorage.clear();
+                  window.location.href = 'login.html';
+                },
+                error: function(xhr, status, error) {
+                  console.error('Logout error:', xhr.responseText || error);
+                  // Still clear session and redirect even if API call fails
+                  sessionStorage.clear();
+                  window.location.href = 'login.html';
+                }
+              });
+            } else {
+              console.log('No JWT token found, clearing session');
+              sessionStorage.clear();
+              window.location.href = 'login.html';
+            }
+          });
+          // Hide Register menu (fix: use .parent() for <li> or .closest('.nav-item'))
+          $('a.nav-link[href="register.html"]').parent().hide();
+          // Show Cart
+          $('#cart-nav').show();
+          // Show My Orders
+          $('#myorders-nav').show();
+          // Show Reviews
+          $('#reviews-nav').show();
+        } else {
+          // Show Register and Login if not logged in
+          $('a.nav-link[href="register.html"]').parent().show();
+          const $loginLink = $('a.nav-link[href="login.html"]');
+          $loginLink.text('Login').attr({ 'href': 'login.html', 'id': '' });
+          // Hide Cart
+          $('#cart-nav').hide();
+          // Hide My Orders
+          $('#myorders-nav').hide();
+          // Hide Reviews
+          $('#reviews-nav').hide();
+        }
+      });
+    </script>
+</body>
+</html>

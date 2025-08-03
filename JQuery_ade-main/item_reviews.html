@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>GadgetEssence - Item Reviews</title>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+    
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.16.1/sweetalert2.css"
+        integrity="sha512-fjO3Vy3QodX9c6G9AUmr6WuIaEPdGRxBjD7gjatG5gGylzYyrEq3U0q+smkG6CwIY0L8XALRFHh4KPHig0Q1ug=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        crossorigin="anonymous" />
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css" />
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.16.1/sweetalert2.min.js"
+        integrity="sha512-LGHBR+kJ5jZSIzhhdfytPoEHzgaYuTRifq9g5l6ja6/k9NAOsAi5dQh4zQF6JIRB8cAYxTRedERUF+97/KuivQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <!-- Custom JS -->
+    <script src="js/reviews.js"></script>
+</head>
+<body>
+    <div id="header"></div>
+    
+    <div class="container-fluid gadget-reviews-container">
+        <div class="row justify-content-center">
+            <div class="col-lg-11 col-xl-10">
+                <div class="gadget-reviews-wrapper">
+                    <!-- Page Header -->
+                    <div class="gadget-reviews-header">
+                        <h1 class="gadget-reviews-title">
+                            <i class="fas fa-star gadget-title-icon"></i>
+                            Item Reviews & Ratings
+                            <small class="gadget-subtitle">Share your experience with amazing gadgets</small>
+                        </h1>
+                        
+                        <!-- Breadcrumb Navigation -->
+                        <nav aria-label="breadcrumb" class="gadget-breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="home.html"><i class="fas fa-home"></i> Home</a>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">
+                                    <i class="fas fa-star"></i> Reviews
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+
+                    <!-- Item Selection Section -->
+                    <div class="gadget-item-selection-section">
+                        <div class="row">
+                            <div class="col-md-8 offset-md-2">
+                                <div class="gadget-selection-card">
+                                    <div class="gadget-selection-header">
+                                        <h5><i class="fas fa-search"></i> Select Item to Review</h5>
+                                        <p>Choose a product to view or write reviews</p>
+                                    </div>
+                                    <div class="gadget-selection-body">
+                                        <label for="itemSelect" class="gadget-label">
+                                            <i class="fas fa-box"></i> Choose Product:
+                                        </label>
+                                        <select class="form-control gadget-select" id="itemSelect">
+                                            <option value="">Select an item to view reviews...</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Delivered Items Section -->
+                    <div id="deliveredItemsSection" class="gadget-delivered-items-section" style="display: none;">
+                        <div class="gadget-section-header">
+                            <h4><i class="fas fa-box-open"></i> Your Delivered Items</h4>
+                            <p>Review the products you've received and share your experience</p>
+                        </div>
+                        <div id="deliveredItemsList" class="gadget-delivered-items-grid">
+                            <!-- Delivered items will be populated here -->
+                        </div>
+                    </div>
+
+                    <!-- Review Statistics Section -->
+                    <div id="reviewStatsSection" class="gadget-stats-section" style="display: none;">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="gadget-stat-card gadget-avg-rating">
+                                    <div class="gadget-stat-icon">
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <div class="gadget-stat-content">
+                                        <div class="gadget-stat-number" id="averageRating">0.0</div>
+                                        <div class="gadget-stat-label">Average Rating</div>
+                                        <div class="gadget-star-display" id="averageStars"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="gadget-stat-card gadget-total-reviews">
+                                    <div class="gadget-stat-icon">
+                                        <i class="fas fa-comments"></i>
+                                    </div>
+                                    <div class="gadget-stat-content">
+                                        <div class="gadget-stat-number" id="totalReviews">0</div>
+                                        <div class="gadget-stat-label">Total Reviews</div>
+                                        <div class="gadget-stat-extra">Customer feedback</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="gadget-stat-card gadget-rating-breakdown">
+                                    <div class="gadget-stat-content">
+                                        <div class="gadget-stat-label">Rating Breakdown</div>
+                                        <div id="ratingBreakdown" class="gadget-breakdown-content">
+                                            <!-- Rating breakdown will be populated here -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Write Review Section -->
+                    <div id="reviewFormSection" class="gadget-write-review-section" style="display: none;">
+                        <div class="row">
+                            <div class="col-lg-8 offset-lg-2">
+                                <div class="gadget-review-form-card">
+                                    <div class="gadget-form-header">
+                                        <h5><i class="fas fa-edit"></i> Write Your Review</h5>
+                                        <p>Share your experience with <span id="currentItemName" class="gadget-highlight">this product</span></p>
+                                    </div>
+                                    <form id="submitReviewForm" class="gadget-review-form">
+                                        <div class="form-group">
+                                            <label class="gadget-label">
+                                                <i class="fas fa-star"></i> Your Rating:
+                                            </label>
+                                            <div class="gadget-star-rating" id="ratingStars">
+                                                <i class="far fa-star" data-rating="1"></i>
+                                                <i class="far fa-star" data-rating="2"></i>
+                                                <i class="far fa-star" data-rating="3"></i>
+                                                <i class="far fa-star" data-rating="4"></i>
+                                                <i class="far fa-star" data-rating="5"></i>
+                                            </div>
+                                            <input type="hidden" id="selectedRating" name="rating" required>
+                                            <small class="gadget-help-text">Click stars to rate this product</small>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="reviewText" class="gadget-label">
+                                                <i class="fas fa-comment"></i> Your Review:
+                                            </label>
+                                            <textarea class="form-control gadget-textarea" id="reviewText" name="review_text" 
+                                                      rows="4" placeholder="Tell others about your experience with this product..."></textarea>
+                                        </div>
+                                        <div class="gadget-form-actions">
+                                            <button type="submit" class="btn gadget-btn-primary gadget-btn-large">
+                                                <i class="fas fa-paper-plane"></i> Submit Review
+                                            </button>
+                                            <button type="button" class="btn gadget-btn-secondary" onclick="resetReviewForm()">
+                                                <i class="fas fa-refresh"></i> Reset Form
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reviews List Section -->
+                    <div id="reviewsListSection" style="display: none;">
+                        <div class="gadget-reviews-list-header">
+                            <h4><i class="fas fa-comments"></i> Customer Reviews for <span id="selectedItemName" class="gadget-highlight">Selected Item</span></h4>
+                            <div class="gadget-reviews-filters">
+                                <select class="form-control gadget-select-sm" id="reviewsFilter">
+                                    <option value="all">All Reviews</option>
+                                    <option value="5">5 Stars</option>
+                                    <option value="4">4 Stars</option>
+                                    <option value="3">3 Stars</option>
+                                    <option value="2">2 Stars</option>
+                                    <option value="1">1 Star</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="reviewsList" class="gadget-reviews-list">
+                            <!-- Reviews will be populated here -->
+                        </div>
+                    </div>
+
+                    <!-- Loading Spinner -->
+                    <div id="loadingSpinner" class="gadget-loading-overlay" style="display: none;">
+                        <div class="gadget-loading-content">
+                            <div class="gadget-loading-spinner">
+                                <i class="fas fa-circle-notch fa-spin"></i>
+                            </div>
+                            <h5 class="gadget-loading-text">Loading reviews...</h5>
+                            <p class="gadget-loading-subtext">Please wait while we fetch the data</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Review Modal -->
+    <div class="modal fade" id="editReviewModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content gadget-modal">
+                <div class="modal-header gadget-modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-edit"></i> Edit Your Review
+                    </h5>
+                    <button type="button" class="close gadget-modal-close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body gadget-modal-body">
+                    <form id="editReviewForm" class="gadget-form">
+                        <input type="hidden" id="editReviewId">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="gadget-label">
+                                        <i class="fas fa-star"></i> Rating:
+                                    </label>
+                                    <div class="gadget-star-rating" id="editRatingStars">
+                                        <i class="far fa-star" data-rating="1"></i>
+                                        <i class="far fa-star" data-rating="2"></i>
+                                        <i class="far fa-star" data-rating="3"></i>
+                                        <i class="far fa-star" data-rating="4"></i>
+                                        <i class="far fa-star" data-rating="5"></i>
+                                    </div>
+                                    <input type="hidden" id="editSelectedRating" name="rating">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="gadget-label">
+                                        <i class="fas fa-info-circle"></i> Item:
+                                    </label>
+                                    <div id="editItemInfo" class="gadget-item-info">
+                                        <!-- Item info will be populated here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="editReviewText" class="gadget-label">
+                                <i class="fas fa-comment"></i> Review Text:
+                            </label>
+                            <textarea class="form-control gadget-textarea" id="editReviewText" 
+                                      name="review_text" rows="4"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer gadget-modal-footer">
+                    <button type="button" class="btn gadget-btn-secondary" data-dismiss="modal">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                    <button type="button" class="btn gadget-btn-primary" onclick="updateReview()">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
