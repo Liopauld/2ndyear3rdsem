@@ -2,14 +2,15 @@ const connection = require('../config/database');
 
 // Get all items with their image (if any)
 exports.getAllItems = (req, res) => {
-    // For admin users, show all items; for regular users, only show visible items
+    // If admin and ?all=true, show all items; else only show_item = 'yes'
     let sql = `SELECT i.item_id, i.name, i.description, i.category, i.cost_price, i.sell_price, i.show_item, s.quantity, img.image_path
                  FROM items i
                  LEFT JOIN stock s ON i.item_id = s.item_id
                  LEFT JOIN items_images img ON i.item_id = img.item_id`;
-    // Only show visible items for non-admin users
+    // Only show all if admin and all=true
     const isAdmin = req.user && req.user.role === 'admin';
-    if (!isAdmin) {
+    const showAll = req.query.all === 'true';
+    if (!(isAdmin && showAll)) {
         sql += ` WHERE i.show_item = 'yes'`;
     }
     try {
@@ -90,18 +91,17 @@ exports.createItem = (req, res) => {
     if (!Array.isArray(image_paths) || image_paths.length === 0 || !image_paths[0]) {
         image_paths = ['storage/images/logo1.png'];
     }
-    const { name, description, category, cost_price, sell_price, show_item, quantity } = req.body;
+    const { name, description, category, cost_price, sell_price, show_item = 'yes', quantity } = req.body;
     if (!name || !description || !category) {
         return res.status(400).json({ error: 'Missing required fields: name, description, category' });
     }
-    const itemSql = `INSERT INTO items (name, description, category, cost_price, sell_price, show_item) VALUES (?, ?, ?, ?, ?, ?)`;
+    const itemSql = `INSERT INTO items (name, description, category, cost_price, sell_price) VALUES (?, ?, ?, ?, ?)`;
     const itemValues = [
       name,
       description,
       category,
       cost_price || null,
-      sell_price || null,
-      show_item || 'yes'
+      sell_price || null
     ];
     connection.execute(itemSql, itemValues, (err, result) => {
         if (err) {

@@ -12,6 +12,15 @@
       crossorigin="anonymous"
     />
 
+    <!-- DataTables CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/css/dataTables.bootstrap4.min.css"
+      integrity="sha512-PT0RvABaDhDQugEbpNMwgYBCnGCiTZMh9yOzUsJHDgl/dMhD9yjHAwoumnUk3JydV3QTcIkNDuN40CJxik5+WQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    
     <!-- Font Awesome -->
     <link
       rel="stylesheet"
@@ -19,101 +28,11 @@
       crossorigin="anonymous"
     />
     
-    <!-- Custom Styles for Pagination -->
-    <style>
-        .search-container {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
-            border-radius: 15px;
-            border: 2px solid rgba(102, 126, 234, 0.1);
-            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.1);
-        }
-        
-        .filter-card {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
-            border: 2px solid rgba(102, 126, 234, 0.1);
-            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.1);
-        }
-        
-        .status-badge {
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-        
-        .status-active {
-            background-color: #d4edda;
-            color: #155724;
-        }
-        
-        .status-inactive {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-        
-        .category-badge {
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 500;
-        }
-        
-        .category-smart-home {
-            background-color: #e3f2fd;
-            color: #1565c0;
-        }
-        
-        .category-mobile-wearable {
-            background-color: #f3e5f5;
-            color: #7b1fa2;
-        }
-        
-        .category-computers-peripherals {
-            background-color: #e8f5e8;
-            color: #2e7d32;
-        }
-        
-        .category-gaming-vr {
-            background-color: #fff3e0;
-            color: #ef6c00;
-        }
-        
-        .category-audio-entertainment {
-            background-color: #fce4ec;
-            color: #c2185b;
-        }
-        
-        .pagination .page-link {
-            color: #667eea;
-            border-color: #dee2e6;
-        }
-        
-        .pagination .page-item.active .page-link {
-            background-color: #667eea;
-            border-color: #667eea;
-        }
-        
-        .pagination .page-link:hover {
-            color: #764ba2;
-            background-color: #e9ecef;
-            border-color: #dee2e6;
-        }
-        
-        .item-image {
-            width: 50px;
-            height: 50px;
-            object-fit: cover;
-            border-radius: 8px;
-            border: 2px solid #e9ecef;
-        }
-        
-        .item-description {
-            max-width: 200px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-    </style>
+    <!-- DataTables Buttons CSS -->
+    <link
+      href="https://cdn.datatables.net/buttons/2.3.5/css/buttons.dataTables.min.css"
+      rel="stylesheet"
+    />
 
     <!-- SweetAlert2 CSS -->
     <link
@@ -146,8 +65,36 @@
       crossorigin="anonymous"
     ></script>
     
-    <!-- Pagination Utility -->
-    <script src="js/pagination-utility.js"></script>
+    <!-- DataTables JS -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js"
+      integrity="sha512-BkpSL20WETFylMrcirBahHfSnY++H2O1W+UnEEO4yNIl+jI2+zowyoGJpbtk6bx97fBXf++WJHSSK2MV4ghPcg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.bootstrap4.min.js"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.5/js/buttons.html5.min.js"></script>
+
+    <!-- Bootbox JS -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"
+      integrity="sha512-RdSPYh1WA6BF0RhpisYJVYkOyTzK4HwofJ3Q7ivt/jkpW6Vc8AurL1R+4AUcvn9IwEKAPm/fk7qFZW3OuiUDeg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     
     <!-- SweetAlert2 JS -->
     <script
@@ -159,8 +106,6 @@
 
     <!-- Custom JS -->
     <script src="js/item.js"></script>
-    <script src="js/auth-checker.js"></script>
-    <script src="js/refresh-utility.js"></script>
   </head>
 
   <body>
@@ -203,93 +148,42 @@
               <span class="btn-text">Add New Item</span>
               <div class="btn-ripple"></div>
             </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Search Bar -->
-      <div class="row mb-4">
-        <div class="col-md-12">
-          <div class="search-container p-3">
-            <div class="input-group">
-              <input type="text" class="form-control" id="searchInput" placeholder="Type to search items in real-time...">
-              <div class="input-group-append">
-                <button class="btn btn-primary" type="button" id="searchBtn">
-                  <i class="fas fa-search"></i> Search
-                </button>
-                <button class="btn btn-secondary" type="button" id="clearSearchBtn">
-                  <i class="fas fa-times"></i> Clear
-                </button>
-              </div>
+            <div class="gadget-export-actions">
+              <button type="button" class="btn gadget-btn-export" id="exportItemsPDF">
+                <i class="fas fa-file-pdf me-2"></i>
+                Export PDF
+              </button>
+              <button type="button" class="btn gadget-btn-export" id="exportItemsExcel">
+                <i class="fas fa-file-excel me-2"></i>
+                Export Excel
+              </button>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Filters -->
-      <div class="filter-card card mb-4">
-        <div class="card-header">
-          <h5 class="mb-0">
-            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#filterCollapse" aria-expanded="false" aria-controls="filterCollapse">
-              <i class="fas fa-filter"></i> Filters
-            </button>
-          </h5>
-        </div>
-        <div id="filterCollapse" class="collapse">
-          <div class="card-body">
-            <div class="row">
-              <!-- Category Filter -->
-              <div class="col-md-6">
-                <div class="filter-section">
-                  <h6>Category</h6>
-                  <select class="form-control" id="categoryFilter" style="height: 45px; padding: 8px 12px;">
-                    <option value="">All Categories</option>
-                    <option value="Smart Home Devices">Smart Home Devices</option>
-                    <option value="Mobile & Wearable Tech">Mobile & Wearable Tech</option>
-                    <option value="Computers & Peripherals">Computers & Peripherals</option>
-                    <option value="Gaming & VR Gear">Gaming & VR Gear</option>
-                    <option value="Audio & Entertainment Devices">Audio & Entertainment Devices</option>
-                  </select>
-                </div>
-              </div>
-              
-              <!-- Price Range Filter -->
-              <div class="col-md-6">
-                <div class="filter-section">
-                  <h6>Price Range</h6>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <label for="minPrice">Min Price (₱)</label>
-                      <input type="number" class="form-control" id="minPrice" placeholder="0" min="0" step="0.01">
-                    </div>
-                    <div class="col-md-6">
-                      <label for="maxPrice">Max Price (₱)</label>
-                      <input type="number" class="form-control" id="maxPrice" placeholder="10000" min="0" step="0.01">
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div class="row mt-3">
-              <div class="col-md-12">
-                <button class="btn btn-success btn-apply-filters" id="applyFiltersBtn">
-                  <i class="fas fa-check"></i> Apply Filters
-                </button>
-                <button class="btn btn-outline-secondary ml-2" id="clearFiltersBtn">
-                  <i class="fas fa-undo"></i> Clear Filters
-                </button>
-              </div>
-            </div>
-          </div>
+      
+      <div class="gadget-admin-table-container">
+        <div class="table-responsive">
+          <table id="itable" class="table table-hover gadget-admin-table">
+            <thead>
+              <tr>
+                <th><i class="fas fa-hashtag"></i> ID</th>
+                <th><i class="fas fa-tag"></i> Name</th>
+                <th><i class="fas fa-list"></i> Category</th>
+                <th><i class="fas fa-images"></i> Images</th>
+                <th><i class="fas fa-info-circle"></i> Description</th>
+                <th><i class="fas fa-peso-sign"></i> Sell Price</th>
+                <th><i class="fas fa-money-bill"></i> Cost Price</th>
+                <th><i class="fas fa-eye"></i> Show Item</th>
+                <th><i class="fas fa-boxes"></i> Quantity</th>
+                <th><i class="fas fa-cogs"></i> Action</th>
+              </tr>
+            </thead>
+            <tbody id="ibody"></tbody>
+          </table>
         </div>
       </div>
-      
-      <!-- Data Container -->
-      <div id="dataContainer"></div>
-      
-      <!-- Bottom Pagination -->
-      <div id="paginationBarBottom" class="mt-4"></div>
     </div>
     <div class="modal fade gadget-modal" id="itemModal" role="dialog" style="display: none">
       <div class="modal-dialog modal-lg">
@@ -304,7 +198,6 @@
           </div>
           <div class="modal-body gadget-modal-body">
             <form id="iform" class="gadget-form">
-              <input type="hidden" id="item_id" name="item_id" />
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">

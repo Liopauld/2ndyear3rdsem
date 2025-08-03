@@ -12,6 +12,15 @@
       crossorigin="anonymous"
     />
 
+    <!-- DataTables CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/css/dataTables.bootstrap4.min.css"
+      integrity="sha512-PT0RvABaDhDQugEbpNMwgYBCnGCiTZMh9yOzUsJHDgl/dMhD9yjHAwoumnUk3JydV3QTcIkNDuN40CJxik5+WQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    
     <!-- Font Awesome -->
     <link
       rel="stylesheet"
@@ -19,64 +28,11 @@
       crossorigin="anonymous"
     />
     
-    <!-- Custom Styles for Pagination -->
-    <style>
-        .search-container {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
-            border-radius: 15px;
-            border: 2px solid rgba(102, 126, 234, 0.1);
-            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.1);
-        }
-        
-        .filter-card {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
-            border: 2px solid rgba(102, 126, 234, 0.1);
-            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.1);
-        }
-        
-        .status-badge {
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-        
-        .status-active {
-            background-color: #d4edda;
-            color: #155724;
-        }
-        
-        .status-inactive {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-        
-        .role-admin {
-            background-color: #cce5ff;
-            color: #004085;
-        }
-        
-        .role-user {
-            background-color: #e2e3e5;
-            color: #383d41;
-        }
-        
-        .pagination .page-link {
-            color: #667eea;
-            border-color: #dee2e6;
-        }
-        
-        .pagination .page-item.active .page-link {
-            background-color: #667eea;
-            border-color: #667eea;
-        }
-        
-        .pagination .page-link:hover {
-            color: #764ba2;
-            background-color: #e9ecef;
-            border-color: #dee2e6;
-        }
-    </style>
+    <!-- DataTables Buttons CSS -->
+    <link
+      href="https://cdn.datatables.net/buttons/2.3.5/css/buttons.dataTables.min.css"
+      rel="stylesheet"
+    />
 
     <!-- SweetAlert2 CSS -->
     <link
@@ -108,8 +64,28 @@
       crossorigin="anonymous"
     ></script>
     
-    <!-- Pagination Utility -->
-    <script src="js/pagination-utility.js"></script>
+    <!-- DataTables JS -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js"
+      integrity="sha512-BkpSL20WETFylMrcirBahHfSnY++H2O1W+UnEEO4yNIl+jI2+zowyoGJpbtk6bx97fBXf++WJHSSK2MV4ghPcg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.bootstrap4.min.js"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.5/js/buttons.html5.min.js"></script>
 
 
     
@@ -157,81 +133,46 @@
         <small class="d-block" style="font-size: 0.6em; color: #7f8c8d; margin-top: 5px;">Admin - User Management & Customer Accounts</small>
       </h1>
       
-      <!-- Search Bar -->
+      <!-- Export Actions Section -->
       <div class="row mb-4">
-        <div class="col-md-12">
-          <div class="search-container p-3">
-            <div class="input-group">
-              <input type="text" class="form-control" id="searchInput" placeholder="Type to search users in real-time...">
-              <div class="input-group-append">
-                <button class="btn btn-primary" type="button" id="searchBtn">
-                  <i class="fas fa-search"></i> Search
-                </button>
-                <button class="btn btn-secondary" type="button" id="clearSearchBtn">
-                  <i class="fas fa-times"></i> Clear
-                </button>
-              </div>
+        <div class="col-12">
+          <div class="gadget-admin-actions-bar">
+            <div class="gadget-admin-info">
+              <i class="fas fa-info-circle me-2"></i>
+              <span>Manage user accounts, roles, and status</span>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Filters -->
-      <div class="filter-card card mb-4">
-        <div class="card-header">
-          <h5 class="mb-0">
-            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#filterCollapse" aria-expanded="false" aria-controls="filterCollapse">
-              <i class="fas fa-filter"></i> Filters
-            </button>
-          </h5>
-        </div>
-        <div id="filterCollapse" class="collapse">
-          <div class="card-body">
-            <div class="row">
-              <!-- Status Filter -->
-              <div class="col-md-6">
-                <div class="filter-section">
-                  <h6>Status</h6>
-                  <select class="form-control" id="statusFilter" style="height: 45px; padding: 8px 12px;">
-                    <option value="">All Status</option>
-                    <option value="active">Active</option>
-                    <option value="inactive">Inactive</option>
-                  </select>
-                </div>
-              </div>
-              
-              <!-- Role Filter -->
-              <div class="col-md-6">
-                <div class="filter-section">
-                  <h6>Role</h6>
-                  <select class="form-control" id="roleFilter" style="height: 45px; padding: 8px 12px;">
-                    <option value="">All Roles</option>
-                    <option value="admin">Admin</option>
-                    <option value="user">User</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            
-            <div class="row mt-3">
-              <div class="col-md-12">
-                <button class="btn btn-success btn-apply-filters" id="applyFiltersBtn">
-                  <i class="fas fa-check"></i> Apply Filters
-                </button>
-                <button class="btn btn-outline-secondary ml-2" id="clearFiltersBtn">
-                  <i class="fas fa-undo"></i> Clear Filters
-                </button>
-              </div>
+            <div class="gadget-export-actions">
+              <button type="button" class="btn gadget-btn-export" id="exportUsersPDF">
+                <i class="fas fa-file-pdf me-2"></i>
+                Export PDF
+              </button>
+              <button type="button" class="btn gadget-btn-export" id="exportUsersExcel">
+                <i class="fas fa-file-excel me-2"></i>
+                Export Excel
+              </button>
             </div>
           </div>
         </div>
       </div>
       
-      <!-- Data Container -->
-      <div id="dataContainer"></div>
-      
-      <!-- Bottom Pagination -->
-      <div id="paginationBarBottom" class="mt-4"></div>
+      <div class="gadget-admin-table-container">
+        <div class="table-responsive">
+          <table id="utable" class="table table-hover gadget-admin-table">
+            <thead>
+              <tr>
+                <th><i class="fas fa-image"></i> Avatar</th>
+                <th><i class="fas fa-envelope"></i> Email</th>
+                <th><i class="fas fa-user"></i> Last Name</th>
+                <th><i class="fas fa-user"></i> First Name</th>
+                <th><i class="fas fa-toggle-on"></i> Status</th>
+                <th><i class="fas fa-user-shield"></i> Role</th>
+                <th><i class="fas fa-cogs"></i> Action</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
     </div>
     <!-- Modal for edit user/customer -->
     <div class="modal fade gadget-modal" id="userModal" tabindex="-1" role="dialog">
